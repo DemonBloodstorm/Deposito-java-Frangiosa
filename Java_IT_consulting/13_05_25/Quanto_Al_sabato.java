@@ -7,26 +7,54 @@ Esempio
 weekend’ */
 import java.util.Scanner;
 
-public class Quanto_Al_sabato {
+class Quanto_Al_sabato {
     public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);
-    String name, surname; 
-    int Anno_nascita, Anni, giorno_della_settimana, Anno_ora, Sabato = 6; // Inizializzo a 6 Sabato per far si che sia al numero di sabato
-    System.out.println("Inserisci il tuo nome:"); // chiedo il nome all'utente
-    name= sc.nextLine(); // ottengo il nome
-    System.out.println("Inserisci il tuo cognome:");  // chiedo il cognome all'utente
-    surname = sc.nextLine(); // ottengo il cognome
-    System.out.println("Inserisci il tuo anno di nascita (YYYY):");  // chiedo l'anno di nascita all'utente
-    Anno_nascita = sc.nextInt(); // ottengo l'anno di nascita
-    System.out.println("Inserisci l'anno corrente (YYYY):");  // chiedo che anno in formato (YYYY) è all'utente, dovrei mettere un controllo per far si che non si possa mettere una anno più piccolo di quello di nascita, sia troppo grande o lo stesso di quello di nascita
-    Anno_ora= sc.nextInt(); // ottengo l'anno odierno
-    Anni = Anno_ora - Anno_nascita; // Uso l'intero Anni per immagazinare la differenza tra l'anno attuale e quello di nascita per ottenere l'età del soggetto
-    System.out.println("Inserisci che giorno della settimana è oggi(1-lunedi,2-martedi...7-domenica):"); // chiedo che giorno è (1- lunedi, 2-martedi, 3- mercoledi, 4- giovedi, 5- venerdi, 6- sabato, 7-domenica)
-    giorno_della_settimana= sc.nextInt();// ottengo il giorno della settimana, ci vorrebbe un if per far si che non venga messo un numero più piccolo di 1 o più grande di 7
-    Sabato = Sabato - giorno_della_settimana; // faccio la differenza tra il numero che è il sabato e che giorno è ora, così che so quanti giorni mancano a sabato
-    if (Sabato == -1) // con il metodo utilizzato mi uscirebbe -1 se è domenica e quindi devo usare l'if per evitare che esca scritto -1 giorni a sabato
-        Sabato = 6;
-    System.out.println("Il tuo nome è "+ name +" "+ surname +" hai "+ Anni + " anni e mancano "+ Sabato + " giorni a sabato"  );
-    sc.close();
+        Scanner sc = new Scanner(System.in);
+
+        String nome, cognome;
+        int annoNascita, annoCorrente, eta;
+        int giornoSettimana; // 1 = lunedì ... 7 = domenica
+        final int SABATO = 6;
+
+        // Input nome
+        System.out.print("Inserisci il tuo nome: ");
+        nome = sc.nextLine();
+
+        // Input cognome
+        System.out.print("Inserisci il tuo cognome: ");
+        cognome = sc.nextLine();
+
+        // Input anno di nascita con controllo
+        do {
+            System.out.print("Inserisci il tuo anno di nascita (es. 1990): ");
+            annoNascita = sc.nextInt();
+        } while (annoNascita < 1900 || annoNascita > 2100);
+
+        // Input anno corrente con controllo
+        do {
+            System.out.print("Inserisci l'anno corrente: ");
+            annoCorrente = sc.nextInt();
+        } while (annoCorrente < annoNascita || annoCorrente > 2100);
+
+        eta = annoCorrente - annoNascita;
+
+        // Input giorno della settimana con controllo
+        do {
+            System.out.print("Che giorno della settimana è oggi (1 = lunedì, ..., 7 = domenica)? ");
+            giornoSettimana = sc.nextInt();
+        } while (giornoSettimana < 1 || giornoSettimana > 7);
+
+        // Calcolo giorni mancanti al sabato
+        int giorniAlSabato = SABATO - giornoSettimana;
+        if (giorniAlSabato < 0) {
+            giorniAlSabato += 7; // esempio: se oggi è domenica (7), mancano 6 giorni
+        }
+
+        // Output finale
+        System.out.println("Il tuo nome è " + nome + " " + cognome + ", hai " + eta + 
+                           " anni e mancano " + giorniAlSabato + " giorni al weekend (sabato).");
+
+        sc.close();
     }
 }
+
